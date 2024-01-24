@@ -1,0 +1,11 @@
+Properties to verify the model:
+1. Bounded time properties (Lost messages from publishers): Every message from a publisher i is delivered to subscriber j within k time units.
+2. Liveliness property: Every subscriber j must receive any message within every < j_min time units (the subscriber queue changes within every j_min time units)
+3. Active within deadline: Every subscriber j must contain any message within deadline j_d (subscriber queue not empty after j_d time units)
+4. Publisher queue should not be full: If a publisher has queue with size n, the publisher queue should always have < n messages.
+5. Subscriber queue should be saturated: If a subscriber has queue with size n, the subscriber should always have n messages after t_s time units.
+5. Maximum delay between messages: if a subscriber has message 'a' at timestamp t_a, and message 'b' at timestamp t_b, then |t_a - t_b| < = t_max
+6. Range of valuations (safety property): If a subscriber has message 'a', then v_min < Val(a) <= v_max
+7. 
+
+

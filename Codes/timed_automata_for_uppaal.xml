@@ -1,0 +1,129 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nta>
+  <declaration>
+chan approach;
+chan exi;
+chan raise;
+chan lower;
+</declaration>
+  <template>
+    <name>Train</name>
+    <declaration>clock y;</declaration>
+    <location id="id0">
+      <name>far</name>
+    </location>
+    <location id="id1">
+      <name>near</name>
+      <label kind="invariant">y&lt;=5</label>
+    </location>
+    <location id="id2">
+      <name>in</name>
+      <label kind="invariant">y&lt;=5</label>
+    </location>
+    <init ref="id0" />
+    <transition>
+      <source ref="id0" />
+      <target ref="id1" />
+      <label kind="synchronisation">approach!</label>
+      <label kind="assignment">y:=0</label>
+    </transition>
+    <transition>
+      <source ref="id2" />
+      <target ref="id0" />
+      <label kind="synchronisation">exi!</label>
+    </transition>
+    <transition>
+      <source ref="id1" />
+      <target ref="id2" />
+      <label kind="guard">y&gt;2</label>
+    </transition>
+  </template>
+  <template>
+    <name>Controller</name>
+    <declaration>clock z;</declaration>
+    <location id="id3">
+      <name>zero</name>
+    </location>
+    <location id="id4">
+      <name>one</name>
+      <label kind="invariant">z&lt;=1</label>
+    </location>
+    <location id="id5">
+      <name>two</name>
+    </location>
+    <location id="id6">
+      <name>three</name>
+      <label kind="invariant">z&lt;=1</label>
+    </location>
+    <init ref="id3" />
+    <transition>
+      <source ref="id6" />
+      <target ref="id3" />
+      <label kind="guard">z==1</label>
+      <label kind="synchronisation">raise!</label>
+    </transition>
+    <transition>
+      <source ref="id5" />
+      <target ref="id6" />
+      <label kind="synchronisation">exi?</label>
+      <label kind="assignment">z:=0</label>
+    </transition>
+    <transition>
+      <source ref="id4" />
+      <target ref="id5" />
+      <label kind="guard">z==1</label>
+      <label kind="synchronisation">lower!</label>
+    </transition>
+    <transition>
+      <source ref="id3" />
+      <target ref="id4" />
+      <label kind="synchronisation">approach?</label>
+      <label kind="assignment">z:=0</label>
+    </transition>
+  </template>
+  <template>
+    <name>Gate</name>
+    <declaration>clock x;</declaration>
+    <location id="id7">
+      <name>up</name>
+    </location>
+    <location id="id8">
+      <name>comingdown</name>
+      <label kind="invariant">x&lt;=1</label>
+    </location>
+    <location id="id9">
+      <name>down</name>
+    </location>
+    <location id="id10">
+      <name>goingup</name>
+      <label kind="invariant">x&lt;=2</label>
+    </location>
+    <init ref="id7" />
+    <transition>
+      <source ref="id10" />
+      <target ref="id7" />
+      <label kind="guard">x&gt;=1</label>
+    </transition>
+    <transition>
+      <source ref="id9" />
+      <target ref="id10" />
+      <label kind="synchronisation">raise?</label>
+      <label kind="assignment">x:=0</label>
+    </transition>
+    <transition>
+      <source ref="id8" />
+      <target ref="id9" />
+    </transition>
+    <transition>
+      <source ref="id7" />
+      <target ref="id8" />
+      <label kind="synchronisation">lower?</label>
+      <label kind="assignment">x:=0</label>
+    </transition>
+  </template>
+  <system>
+ProcessTrain = Train();
+ProcessController = Controller();
+ProcessGate = Gate();
+system ProcessTrain,ProcessController,ProcessGate;</system>
+</nta>

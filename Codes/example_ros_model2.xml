@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nta>
+  <declaration>
+chan p1, s1;
+const int r1 = 1;
+const int ds1 = 2;
+const int ns1 = 1;
+int As1[1];
+int cs1 = 0, os1 = 0;
+
+void enqueue(int &amp;A[1], int n, int &amp;cs, int &amp;os, int p) {
+    if (cs == n){
+        int i;        
+        for (i=0; i&lt;=n-2; i++){
+            A[i] = A[i+1];
+        }
+        A[n-1] = p;
+        os = 1-os;
+    }
+    else {
+        A[cs] = p;
+        cs++;
+    }
+}
+
+void dequeue(int &amp;A[1], int n, int &amp;cs) {    
+    int i;
+    if (cs == 1){
+        A[0] = 0;
+    }
+    if (cs &gt; 1) {
+        for (i=0; i&lt;=cs-2; i++){
+            A[i] = A[i+1];
+        }
+        A[cs-1] = 0;
+    }
+    cs--;
+    if (cs &lt; 0){
+        cs = 0;
+    }
+}
+</declaration>
+  <template>
+    <name>p1name</name>
+    <declaration>clock t;</declaration>
+    <location id="id0">
+      <name>initp1</name>
+      <label kind="invariant">t &lt;= r1</label>
+    </location>
+    <init ref="id0" />
+    <transition>
+      <source ref="id0" />
+      <target ref="id0" />
+      <label kind="guard">t == r1</label>
+      <label kind="synchronisation">p1!</label>
+      <label kind="assignment">t=0</label>
+    </transition>
+  </template>
+  <template>
+    <name>s1name</name>
+    <declaration>clock t;</declaration>
+    <location id="id1">
+      <name>inits1</name>
+      <label kind="invariant">t &lt;= ds1</label>
+    </location>
+    <init ref="id1" />
+    <transition>
+      <source ref="id1" />
+      <target ref="id1" />
+      <label kind="guard">t == ds1</label>
+      <label kind="assignment">t=0, dequeue(As1,ns1,cs1)</label>
+    </transition>
+  </template>
+  <template>
+    <name>top1name</name>
+    <location id="id2">
+      <name>inittop1</name>
+    </location>
+    <init ref="id2" />
+    <transition>
+      <source ref="id2" />
+      <target ref="id2" />
+      <label kind="synchronisation">p1?</label>
+      <label kind="assignment">enqueue(As1,ns1,cs1,os1,1)</label>
+    </transition>
+  </template>
+  <system>
+Processp1 = p1name();
+Processs1 = s1name();
+Processtop1 = top1name();
+system Processp1, Processs1, Processtop1;
+</system>
+</nta>

@@ -1,0 +1,21 @@
+Safety_Controller_Node:
+Input: events from two wheel drop sensors, three bumper sensors, and three cliff sensors
+Output: Velocity commands (Go backward, stop, spin left, spin right) 
+
+if either of the wheel drop sensors detects any wheel drop event, then the safety_controller will send "stop" ( linear velocity 0, angular velocity 0)
+
+if center of the bumper or cliff sensor is detects any events, then the safety_controller will send "go backward" (linear velocity -0.1)
+
+if right of the bumper or cliff sensor is detects any event, then the safety controller will send "go backword and spin a little to the left") (linear velocity -0.1, angular velocity 0.4)
+
+if left of the bumper or cliff sensor is detects any event, then the safety controller will send "go backword and spin a little to the right") (linear velocity -0.1, angular velocity -0.4)
+
+if neither of these sensors detects any unsafe events, the Safety_Controller_Node will output "safe to move"
+
+
+Random_Walker_Node:
+The robot will move randomly. It will move forward until the bumper or cliff sensors detects any events. In that case it will turn a random angle and keep moving forward again. The robot will stop if any wheel drop events occurs.
+
+
+Multiplexer_Node:
+This node will get velocity commands from both Safety_Controller_Node and Random_Walker_Node. If it detects any unsafe events from the safety_controller_node, then it will execute the velocity command from the safety_controller_node. Else it will execute the velocity command from the Random_Walker_Node and keep the robot moving randomly.

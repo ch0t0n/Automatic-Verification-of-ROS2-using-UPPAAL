@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+chan pone, ptwo, pthree, sone, stwo;
+int As1[5], As2[3];
+</declaration>
+	<template>
+		<name x="5" y="5">pub1</name>
+		<declaration>// Place local declarations here.
+clock t1;</declaration>
+		<location id="id0" x="-552" y="-773">
+			<name x="-561" y="-756">initp1</name>
+			<label kind="invariant" x="-561" y="-739">t1&lt;=1</label>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-578" y="-918">t1==1</label>
+			<label kind="synchronisation" x="-578" y="-901">pone!</label>
+			<label kind="assignment" x="-578" y="-884">t1:=0</label>
+			<nail x="-493" y="-858"/>
+			<nail x="-612" y="-858"/>
+		</transition>
+	</template>
+	<template>
+		<name>pub2</name>
+		<declaration>clock t2;</declaration>
+		<location id="id1" x="-170" y="-59">
+			<name x="-179" y="-42">initp2</name>
+			<label kind="invariant" x="-179" y="-25">t2&lt;=2</label>
+		</location>
+		<init ref="id1"/>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-196" y="-204">t2==2</label>
+			<label kind="synchronisation" x="-196" y="-187">ptwo!</label>
+			<label kind="assignment" x="-196" y="-170">t2:=0</label>
+			<nail x="-111" y="-144"/>
+			<nail x="-230" y="-144"/>
+		</transition>
+	</template>
+	<template>
+		<name>pub3</name>
+		<location id="id2" x="-348" y="-204">
+			<name x="-374" y="-187">initp3</name>
+		</location>
+		<location id="id3" x="-144" y="-204">
+			<name x="-161" y="-187">received</name>
+		</location>
+		<init ref="id2"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-263" y="-289">pthree!</label>
+			<nail x="-255" y="-255"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="synchronisation" x="-255" y="-161">stwo?</label>
+			<nail x="-238" y="-161"/>
+		</transition>
+	</template>
+	<template>
+		<name>sub1</name>
+		<declaration>clock ts1;</declaration>
+		<location id="id4" x="-323" y="-323">
+			<name x="-374" y="-349">inits1</name>
+			<label kind="invariant" x="-391" y="-331">ts1&lt;=1</label>
+		</location>
+		<init ref="id4"/>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-212" y="-349">ts1==1</label>
+			<label kind="synchronisation" x="-211" y="-336">sone!</label>
+			<label kind="assignment" x="-211" y="-319">ts1:=0</label>
+			<nail x="-221" y="-247"/>
+			<nail x="-229" y="-391"/>
+		</transition>
+	</template>
+	<template>
+		<name>sub2</name>
+		<declaration>clock t;</declaration>
+		<location id="id5" x="-178" y="-204">
+			<name x="-229" y="-230">inits2</name>
+			<label kind="invariant" x="-229" y="-204">t&lt;=4</label>
+		</location>
+		<init ref="id5"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id5"/>
+			<label kind="guard" x="-67" y="-230">t==4</label>
+			<label kind="synchronisation" x="-66" y="-217">stwo!</label>
+			<label kind="assignment" x="-66" y="-200">t:=0</label>
+			<nail x="-76" y="-128"/>
+			<nail x="-84" y="-272"/>
+		</transition>
+	</template>
+	<template>
+		<name>top1</name>
+		<location id="id6" x="-153" y="-195">
+			<name x="-144" y="-238">initt1</name>
+		</location>
+		<init ref="id6"/>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-238" y="-280">pthree?</label>
+			<nail x="-229" y="-221"/>
+			<nail x="-153" y="-263"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-212" y="-153">ptwo?</label>
+			<nail x="-127" y="-127"/>
+			<nail x="-212" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-85" y="-212">pone?</label>
+			<nail x="-93" y="-170"/>
+			<nail x="-93" y="-229"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+Processpub1 = pub1();
+Processpub2 = pub2();
+Processpub3 = pub3();
+Processsub1 = sub1();
+Processsub2 = sub2();
+Processtop1 = top1();
+// List one or more processes to be composed into a system.
+system Processpub1, Processpub2, Processpub3, Processsub1, Processsub2, Processtop1;
+    </system>
+	<queries>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

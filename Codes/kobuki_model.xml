@@ -1,0 +1,373 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nta>
+  <declaration>
+chan p5, p3, p4, p2, p1, p7, p8, p9, p6, s2, s1, s4, s3;
+const int r1 = 2, r2 = 3, r3 = 1, r4 = 1, r5 = 1, r6 = 1;
+const int ds1 = 1, ds2 = 1, ds3 = 1, ds4 = 3;
+const int ns1 = 5, ns2 = 3, ns3 = 4, ns4 = 6;
+int As2[6], As1[6], As4[6], As3[6];
+int cs2 = 0, os2 = 0, cs1 = 0, os1 = 0, cs4 = 0, os4 = 0, cs3 = 0, os3 = 0;
+
+void enqueue(int &amp;A[6], int n, int &amp;cs, int &amp;os, int p) {
+    if (cs == n){
+        int i;        
+        for (i=0; i&lt;=n-2; i++){
+            A[i] = A[i+1];
+        }
+        A[n-1] = p;
+        os = 1-os;
+    }
+    else {
+        A[cs] = p;
+        cs++;
+    }
+}
+
+void dequeue(int &amp;A[6], int n, int &amp;cs) {    
+    int i;
+    if (cs == 1){
+        A[0] = 0;
+    }
+    if (cs &gt; 1) {
+        for (i=0; i&lt;=cs-2; i++){
+            A[i] = A[i+1];
+        }
+        A[cs-1] = 0;
+    }
+    cs--;
+    if (cs &lt; 0){
+        cs = 0;
+    }
+}
+</declaration>
+  <template>
+    <name>p1name</name>
+    <declaration>clock t;</declaration>
+    <location id="id0">
+      <name>initp1</name>
+      <label kind="invariant">t &lt;= r1</label>
+    </location>
+    <init ref="id0" />
+    <transition>
+      <source ref="id0" />
+      <target ref="id0" />
+      <label kind="guard">t == r1</label>
+      <label kind="synchronisation">p1!</label>
+      <label kind="assignment">t=0</label>
+    </transition>
+  </template>
+  <template>
+    <name>p2name</name>
+    <declaration>clock t;</declaration>
+    <location id="id1">
+      <name>initp2</name>
+      <label kind="invariant">t &lt;= r2</label>
+    </location>
+    <init ref="id1" />
+    <transition>
+      <source ref="id1" />
+      <target ref="id1" />
+      <label kind="guard">t == r2</label>
+      <label kind="synchronisation">p2!</label>
+      <label kind="assignment">t=0</label>
+    </transition>
+  </template>
+  <template>
+    <name>p3name</name>
+    <declaration>clock t;</declaration>
+    <location id="id2">
+      <name>initp3</name>
+      <label kind="invariant">t &lt;= r3</label>
+    </location>
+    <init ref="id2" />
+    <transition>
+      <source ref="id2" />
+      <target ref="id2" />
+      <label kind="guard">t == r3</label>
+      <label kind="synchronisation">p3!</label>
+      <label kind="assignment">t=0</label>
+    </transition>
+  </template>
+  <template>
+    <name>p4name</name>
+    <declaration>clock t;</declaration>
+    <location id="id3">
+      <name>initp4</name>
+      <label kind="invariant">t &lt;= r4</label>
+    </location>
+    <init ref="id3" />
+    <transition>
+      <source ref="id3" />
+      <target ref="id3" />
+      <label kind="guard">t == r4</label>
+      <label kind="synchronisation">p4!</label>
+      <label kind="assignment">t=0</label>
+    </transition>
+  </template>
+  <template>
+    <name>p5name</name>
+    <declaration>clock t;</declaration>
+    <location id="id4">
+      <name>initp5</name>
+      <label kind="invariant">t &lt;= r5</label>
+    </location>
+    <init ref="id4" />
+    <transition>
+      <source ref="id4" />
+      <target ref="id4" />
+      <label kind="guard">t == r5</label>
+      <label kind="synchronisation">p5!</label>
+      <label kind="assignment">t=0</label>
+    </transition>
+  </template>
+  <template>
+    <name>p6name</name>
+    <declaration>clock t;</declaration>
+    <location id="id5">
+      <name>initp6</name>
+      <label kind="invariant">t &lt;= r6</label>
+    </location>
+    <init ref="id5" />
+    <transition>
+      <source ref="id5" />
+      <target ref="id5" />
+      <label kind="guard">t == r6</label>
+      <label kind="synchronisation">p6!</label>
+      <label kind="assignment">t=0</label>
+    </transition>
+  </template>
+  <template>
+    <name>p7name</name>
+    <declaration>clock t;</declaration>
+    <location id="id6">
+      <name>initp7</name>
+    </location>
+    <location id="id7">
+      <name>received</name>
+      <label kind="invariant">t &lt;= 0</label>
+    </location>
+    <init ref="id6" />
+    <transition>
+      <source ref="id6" />
+      <target ref="id7" />
+      <label kind="synchronisation">s1?</label>
+      <label kind="assignment">t=0</label>
+    </transition>
+    <transition>
+      <source ref="id7" />
+      <target ref="id6" />
+      <label kind="synchronisation">p7!</label>
+    </transition>
+  </template>
+  <template>
+    <name>p8name</name>
+    <declaration>clock t;</declaration>
+    <location id="id8">
+      <name>initp8</name>
+    </location>
+    <location id="id9">
+      <name>received</name>
+      <label kind="invariant">t &lt;= 0</label>
+    </location>
+    <init ref="id8" />
+    <transition>
+      <source ref="id8" />
+      <target ref="id9" />
+      <label kind="synchronisation">s2?</label>
+      <label kind="assignment">t=0</label>
+    </transition>
+    <transition>
+      <source ref="id9" />
+      <target ref="id8" />
+      <label kind="synchronisation">p8!</label>
+    </transition>
+  </template>
+  <template>
+    <name>p9name</name>
+    <declaration>clock t;</declaration>
+    <location id="id10">
+      <name>initp9</name>
+    </location>
+    <location id="id11">
+      <name>received</name>
+      <label kind="invariant">t &lt;= 0</label>
+    </location>
+    <init ref="id10" />
+    <transition>
+      <source ref="id10" />
+      <target ref="id11" />
+      <label kind="synchronisation">s3?</label>
+      <label kind="assignment">t=0</label>
+    </transition>
+    <transition>
+      <source ref="id11" />
+      <target ref="id10" />
+      <label kind="synchronisation">p9!</label>
+    </transition>
+  </template>
+  <template>
+    <name>s1name</name>
+    <declaration>clock t;</declaration>
+    <location id="id12">
+      <name>inits1</name>
+      <label kind="invariant">t &lt;= ds1</label>
+    </location>
+    <init ref="id12" />
+    <transition>
+      <source ref="id12" />
+      <target ref="id12" />
+      <label kind="guard">t == ds1</label>
+      <label kind="synchronisation">s1!</label>
+      <label kind="assignment">t=0, dequeue(As1,ns1,cs1)</label>
+    </transition>
+  </template>
+  <template>
+    <name>s2name</name>
+    <declaration>clock t;</declaration>
+    <location id="id13">
+      <name>inits2</name>
+      <label kind="invariant">t &lt;= ds2</label>
+    </location>
+    <init ref="id13" />
+    <transition>
+      <source ref="id13" />
+      <target ref="id13" />
+      <label kind="guard">t == ds2</label>
+      <label kind="synchronisation">s2!</label>
+      <label kind="assignment">t=0, dequeue(As2,ns2,cs2)</label>
+    </transition>
+  </template>
+  <template>
+    <name>s3name</name>
+    <declaration>clock t;</declaration>
+    <location id="id14">
+      <name>inits3</name>
+      <label kind="invariant">t &lt;= ds3</label>
+    </location>
+    <init ref="id14" />
+    <transition>
+      <source ref="id14" />
+      <target ref="id14" />
+      <label kind="guard">t == ds3</label>
+      <label kind="synchronisation">s3!</label>
+      <label kind="assignment">t=0, dequeue(As3,ns3,cs3)</label>
+    </transition>
+  </template>
+  <template>
+    <name>s4name</name>
+    <declaration>clock t;</declaration>
+    <location id="id15">
+      <name>inits4</name>
+      <label kind="invariant">t &lt;= ds4</label>
+    </location>
+    <init ref="id15" />
+    <transition>
+      <source ref="id15" />
+      <target ref="id15" />
+      <label kind="guard">t == ds4</label>
+      <label kind="assignment">t=0, dequeue(As4,ns4,cs4)</label>
+    </transition>
+  </template>
+  <template>
+    <name>top2name</name>
+    <location id="id16">
+      <name>inittop2</name>
+    </location>
+    <init ref="id16" />
+    <transition>
+      <source ref="id16" />
+      <target ref="id16" />
+      <label kind="synchronisation">p3?</label>
+      <label kind="assignment">enqueue(As2,ns2,cs2,os2,3)</label>
+    </transition>
+    <transition>
+      <source ref="id16" />
+      <target ref="id16" />
+      <label kind="synchronisation">p4?</label>
+      <label kind="assignment">enqueue(As2,ns2,cs2,os2,4)</label>
+    </transition>
+  </template>
+  <template>
+    <name>top1name</name>
+    <location id="id17">
+      <name>inittop1</name>
+    </location>
+    <init ref="id17" />
+    <transition>
+      <source ref="id17" />
+      <target ref="id17" />
+      <label kind="synchronisation">p1?</label>
+      <label kind="assignment">enqueue(As1,ns1,cs1,os1,1)</label>
+    </transition>
+    <transition>
+      <source ref="id17" />
+      <target ref="id17" />
+      <label kind="synchronisation">p2?</label>
+      <label kind="assignment">enqueue(As1,ns1,cs1,os1,2)</label>
+    </transition>
+  </template>
+  <template>
+    <name>top4name</name>
+    <location id="id18">
+      <name>inittop4</name>
+    </location>
+    <init ref="id18" />
+    <transition>
+      <source ref="id18" />
+      <target ref="id18" />
+      <label kind="synchronisation">p7?</label>
+      <label kind="assignment">enqueue(As4,ns4,cs4,os4,7)</label>
+    </transition>
+    <transition>
+      <source ref="id18" />
+      <target ref="id18" />
+      <label kind="synchronisation">p8?</label>
+      <label kind="assignment">enqueue(As4,ns4,cs4,os4,8)</label>
+    </transition>
+    <transition>
+      <source ref="id18" />
+      <target ref="id18" />
+      <label kind="synchronisation">p9?</label>
+      <label kind="assignment">enqueue(As4,ns4,cs4,os4,9)</label>
+    </transition>
+  </template>
+  <template>
+    <name>top3name</name>
+    <location id="id19">
+      <name>inittop3</name>
+    </location>
+    <init ref="id19" />
+    <transition>
+      <source ref="id19" />
+      <target ref="id19" />
+      <label kind="synchronisation">p5?</label>
+      <label kind="assignment">enqueue(As3,ns3,cs3,os3,5)</label>
+    </transition>
+    <transition>
+      <source ref="id19" />
+      <target ref="id19" />
+      <label kind="synchronisation">p6?</label>
+      <label kind="assignment">enqueue(As3,ns3,cs3,os3,6)</label>
+    </transition>
+  </template>
+  <system>
+Processp5 = p5name();
+Processp3 = p3name();
+Processp4 = p4name();
+Processp2 = p2name();
+Processp1 = p1name();
+Processp7 = p7name();
+Processp8 = p8name();
+Processp9 = p9name();
+Processp6 = p6name();
+Processs2 = s2name();
+Processs1 = s1name();
+Processs4 = s4name();
+Processs3 = s3name();
+Processtop2 = top2name();
+Processtop1 = top1name();
+Processtop4 = top4name();
+Processtop3 = top3name();
+system Processp5, Processp3, Processp4, Processp2, Processp1, Processp7, Processp8, Processp9, Processp6, Processs2, Processs1, Processs4, Processs3, Processtop2, Processtop1, Processtop4, Processtop3;
+</system>
+</nta>

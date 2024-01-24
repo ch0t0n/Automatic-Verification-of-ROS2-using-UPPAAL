@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+int QueueSize = 1;
+int PubQsize = 10;
+int SubQsize = 10;
+int PubQ = 0;
+int SubQ = 0;
+int PubTime = 5;
+int SubTime = 1;
+
+chan get_msg, publish_msg, Spin;
+</declaration>
+	<template>
+		<name x="5" y="5">Publisher</name>
+		<declaration>// Place local declarations here.
+
+clock t1;
+
+
+</declaration>
+		<location id="id0" x="-153" y="-76">
+			<name x="-204" y="-93">Init</name>
+			<label kind="invariant" x="-263" y="-76">t1 &lt;= PubTime</label>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-59" y="-85">t1 == PubTime</label>
+			<label kind="synchronisation" x="-59" y="-102">publish_msg!</label>
+			<label kind="assignment" x="-59" y="-68">t1 := 0</label>
+			<nail x="-68" y="-17"/>
+			<nail x="-68" y="-127"/>
+		</transition>
+	</template>
+	<template>
+		<name>PubQueue</name>
+		<location id="id1" x="-229" y="-136">
+			<name x="-237" y="-170">Init</name>
+		</location>
+		<location id="id2" x="-8" y="-136">
+			<name x="-42" y="-178">Overflow</name>
+		</location>
+		<init ref="id1"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id2"/>
+			<label kind="guard" x="59" y="-161">PubQ &gt;= QueueSize</label>
+			<label kind="synchronisation" x="59" y="-144">publish_msg?</label>
+			<label kind="assignment" x="59" y="-127">PubQ := QueueSize</label>
+			<nail x="51" y="-85"/>
+			<nail x="51" y="-178"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-433" y="-170">PubQ &lt; QueueSize</label>
+			<label kind="synchronisation" x="-399" y="-153">publish_msg?</label>
+			<label kind="assignment" x="-433" y="-136">PubQ := PubQ + 1</label>
+			<nail x="-297" y="-86"/>
+			<nail x="-297" y="-187"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-170" y="-127">PubQ == QueueSize</label>
+			<label kind="synchronisation" x="-170" y="-110">publish_msg?</label>
+			<label kind="assignment" x="-170" y="-93">PubQ := PubQ + 1</label>
+			<nail x="-110" y="-136"/>
+		</transition>
+	</template>
+	<template>
+		<name>Subscriber</name>
+		<declaration>
+clock t2;</declaration>
+		<location id="id3" x="-76" y="-42">
+			<name x="-119" y="-59">Init</name>
+			<label kind="invariant" x="-187" y="-42">t2 &lt;= SubTime</label>
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="guard" x="42" y="-42">t2 == SubTime</label>
+			<label kind="synchronisation" x="42" y="-59">Spin!</label>
+			<label kind="assignment" x="42" y="-25">t2 := 0</label>
+			<nail x="33" y="21"/>
+			<nail x="33" y="-89"/>
+		</transition>
+	</template>
+	<template>
+		<name>SubQueue</name>
+		<declaration>
+</declaration>
+		<location id="id4" x="-408" y="-340">
+			<name x="-418" y="-374">Init</name>
+		</location>
+		<location id="id5" x="-212" y="-340">
+			<name x="-246" y="-382">Overflow</name>
+		</location>
+		<init ref="id4"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id5"/>
+			<label kind="guard" x="-161" y="-374">SubQ &gt;= QueueSize</label>
+			<label kind="synchronisation" x="-161" y="-357">get_msg?</label>
+			<label kind="assignment" x="-161" y="-340">SubQ := QueueSize</label>
+			<nail x="-170" y="-297"/>
+			<nail x="-170" y="-382"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="guard" x="-373" y="-340">SubQ == QueueSize</label>
+			<label kind="synchronisation" x="-373" y="-323">get_msg?</label>
+			<label kind="assignment" x="-373" y="-306">SubQ := SubQ + 1</label>
+			<nail x="-296" y="-340"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-604" y="-374">SubQ &lt; QueueSize</label>
+			<label kind="synchronisation" x="-604" y="-357">get_msg?</label>
+			<label kind="assignment" x="-604" y="-340">SubQ := SubQ + 1</label>
+			<nail x="-476" y="-297"/>
+			<nail x="-476" y="-382"/>
+		</transition>
+	</template>
+	<template>
+		<name>CallBack</name>
+		<location id="id6" x="-289" y="-25">
+			<name x="-299" y="-59">Init</name>
+		</location>
+		<location id="id7" x="-136" y="-25">
+			<name x="-146" y="-59">Callback</name>
+		</location>
+		<init ref="id6"/>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-238" y="-93">get_msg!</label>
+			<nail x="-212" y="-68"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="-229" y="17">Spin?</label>
+			<nail x="-212" y="17"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P_pub = Publisher();
+P_pubq = PubQueue();
+P_sub = Subscriber();
+P_subq = SubQueue();
+P_callback = CallBack();
+
+
+// List one or more processes to be composed into a system.
+system P_pub, P_pubq, P_sub, P_subq, P_callback;
+    </system>
+	<queries>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

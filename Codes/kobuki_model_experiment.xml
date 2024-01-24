@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>
+chan p7, p4, p3, p9, p2, p1, p5, p6, p8, s2, s4, s3, s1;
+const int r1 = 2, r2 = 3, r3 = 1, r4 = 1, r5 = 1, r6 = 1;
+const int ds1 = 1, ds2 = 1, ds3 = 1, ds4 = 3;
+const int ns1 = 5, ns2 = 3, ns3 = 4, ns4 = 6;
+int As2[6], As4[6], As3[6], As1[6];
+int cs2 = 0, os2 = 0, cs4 = 0, os4 = 0, cs3 = 0, os3 = 0, cs1 = 0, os1 = 0;
+
+void enqueue(int &amp;A[6], int n, int &amp;cs, int &amp;os, int p) {
+    if (cs == n){
+        int i;        
+        for (i=0; i&lt;=n-2; i++){
+            A[i] = A[i+1];
+        }
+        A[n-1] = p;
+        os = 1-os;
+    }
+    else {
+        A[cs] = p;
+        cs++;
+    }
+}
+
+void dequeue(int &amp;A[6], int n, int &amp;cs) {    
+    int i;
+    if (cs == 1){
+        A[0] = 0;
+    }
+    if (cs &gt; 1) {
+        for (i=0; i&lt;=cs-2; i++){
+            A[i] = A[i+1];
+        }
+        A[cs-1] = 0;
+    }
+    cs--;
+    if (cs &lt; 0){
+        cs = 0;
+    }
+}
+</declaration>
+	<template>
+		<name>p1name</name>
+		<declaration>clock t;</declaration>
+		<location id="id0" x="40" y="80">
+			<name x="30" y="50">initp1</name>
+			<label kind="invariant" x="30" y="95">t &lt;= r1</label>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-20" y="50">t == r1</label>
+			<label kind="synchronisation" x="-20" y="65">p1!</label>
+			<label kind="assignment" x="-20" y="80">t=0</label>
+			<nail x="10" y="50"/>
+			<nail x="70" y="50"/>
+		</transition>
+	</template>
+	<template>
+		<name>p2name</name>
+		<declaration>clock t;</declaration>
+		<location id="id1" x="40" y="80">
+			<name x="30" y="50">initp2</name>
+			<label kind="invariant" x="30" y="95">t &lt;= r2</label>
+		</location>
+		<init ref="id1"/>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="guard" x="-20" y="50">t == r2</label>
+			<label kind="synchronisation" x="-20" y="65">p2!</label>
+			<label kind="assignment" x="-20" y="80">t=0</label>
+			<nail x="10" y="50"/>
+			<nail x="70" y="50"/>
+		</transition>
+	</template>
+	<template>
+		<name>p3name</name>
+		<declaration>clock t;</declaration>
+		<location id="id2" x="40" y="80">
+			<name x="30" y="50">initp3</name>
+			<label kind="invariant" x="30" y="95">t &lt;= r3</label>
+		</location>
+		<init ref="id2"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-20" y="50">t == r3</label>
+			<label kind="synchronisation" x="-20" y="65">p3!</label>
+			<label kind="assignment" x="-20" y="80">t=0</label>
+			<nail x="10" y="50"/>
+			<nail x="70" y="50"/>
+		</transition>
+	</template>
+	<template>
+		<name>p4name</name>
+		<declaration>clock t;</declaration>
+		<location id="id3" x="40" y="80">
+			<name x="30" y="50">initp4</name>
+			<label kind="invariant" x="30" y="95">t &lt;= r4</label>
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-20" y="50">t == r4</label>
+			<label kind="synchronisation" x="-20" y="65">p4!</label>
+			<label kind="assignment" x="-20" y="80">t=0</label>
+			<nail x="10" y="50"/>
+			<nail x="70" y="50"/>
+		</transition>
+	</template>
+	<template>
+		<name>p5name</name>
+		<declaration>clock t;</declaration>
+		<location id="id4" x="40" y="80">
+			<name x="30" y="50">initp5</name>
+			<label kind="invariant" x="30" y="95">t &lt;= r5</label>
+		</location>
+		<init ref="id4"/>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id4"/>
+			<label kind="guard" x="-20" y="50">t == r5</label>
+			<label kind="synchronisation" x="-20" y="65">p5!</label>
+			<label kind="assignment" x="-20" y="80">t=0</label>
+			<nail x="10" y="50"/>
+			<nail x="70" y="50"/>
+		</transition>
+	</template>
+	<template>
+		<name>p6name</name>
+		<declaration>clock t;</declaration>
+		<location id="id5" x="40" y="80">
+			<name x="30" y="50">initp6</name>
+			<label kind="invariant" x="30" y="95">t &lt;= r6</label>
+		</location>
+		<init ref="id5"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id5"/>
+			<label kind="guard" x="-20" y="50">t == r6</label>
+			<label kind="synchronisation" x="-20" y="65">p6!</label>
+			<label kind="assignment" x="-20" y="80">t=0</label>
+			<nail x="10" y="50"/>
+			<nail x="70" y="50"/>
+		</transition>
+	</template>
+	<template>
+		<name>p7name</name>
+		<declaration>clock t;</declaration>
+		<location id="id6" x="40" y="80">
+			<name x="30" y="50">initp7</name>
+		</location>
+		<location id="id7" x="190" y="80">
+			<name x="180" y="50">received</name>
+			<label kind="invariant" x="180" y="95">t &lt;= 0</label>
+		</location>
+		<init ref="id6"/>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="synchronisation" x="55" y="65">s1?</label>
+			<label kind="assignment" x="55" y="80">t=0</label>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="55" y="65">p7!</label>
+		</transition>
+	</template>
+	<template>
+		<name>p8name</name>
+		<declaration>clock t;</declaration>
+		<location id="id8" x="40" y="80">
+			<name x="30" y="50">initp8</name>
+		</location>
+		<location id="id9" x="190" y="80">
+			<name x="180" y="50">received</name>
+			<label kind="invariant" x="180" y="95">t &lt;= 0</label>
+		</location>
+		<init ref="id8"/>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+			<label kind="synchronisation" x="55" y="65">s2?</label>
+			<label kind="assignment" x="55" y="80">t=0</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="55" y="65">p8!</label>
+		</transition>
+	</template>
+	<template>
+		<name>p9name</name>
+		<declaration>clock t;</declaration>
+		<location id="id10" x="40" y="80">
+			<name x="30" y="50">initp9</name>
+		</location>
+		<location id="id11" x="190" y="80">
+			<name x="180" y="50">received</name>
+			<label kind="invariant" x="180" y="95">t &lt;= 0</label>
+		</location>
+		<init ref="id10"/>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id11"/>
+			<label kind="synchronisation" x="55" y="65">s3?</label>
+			<label kind="assignment" x="55" y="80">t=0</label>
+		</transition>
+		<transition>
+			<source ref="id11"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="55" y="65">p9!</label>
+		</transition>
+	</template>
+	<template>
+		<name>s1name</name>
+		<declaration>clock t;</declaration>
+		<location id="id12" x="40" y="80">
+			<name x="-17" y="68">inits1</name>
+			<label kind="invariant" x="-25" y="85">t &lt;= ds1</label>
+		</location>
+		<init ref="id12"/>
+		<transition>
+			<source ref="id12"/>
+			<target ref="id12"/>
+			<label kind="guard" x="-59" y="-85">t == ds1</label>
+			<label kind="synchronisation" x="-30" y="-70">s1!</label>
+			<label kind="assignment" x="-170" y="-51">t=0, dequeue(As1,ns1,cs1)</label>
+			<nail x="0" y="-85"/>
+			<nail x="60" y="-85"/>
+		</transition>
+	</template>
+	<template>
+		<name>s2name</name>
+		<declaration>clock t;</declaration>
+		<location id="id13" x="40" y="80">
+			<name x="25" y="25">inits2</name>
+			<label kind="invariant" x="30" y="95">t &lt;= ds2</label>
+		</location>
+		<init ref="id13"/>
+		<transition>
+			<source ref="id13"/>
+			<target ref="id13"/>
+			<label kind="guard" x="-110" y="25">t == ds2</label>
+			<label kind="synchronisation" x="-34" y="76">s2!</label>
+			<label kind="assignment" x="-144" y="93">t=0, dequeue(As2,ns2,cs2)</label>
+			<nail x="10" y="50"/>
+			<nail x="70" y="50"/>
+		</transition>
+	</template>
+	<template>
+		<name>s3name</name>
+		<declaration>clock t;</declaration>
+		<location id="id14" x="40" y="80">
+			<name x="30" y="50">inits3</name>
+			<label kind="invariant" x="30" y="95">t &lt;= ds3</label>
+		</location>
+		<init ref="id14"/>
+		<transition>
+			<source ref="id14"/>
+			<target ref="id14"/>
+			<label kind="guard" x="-20" y="50">t == ds3</label>
+			<label kind="synchronisation" x="-20" y="65">s3!</label>
+			<label kind="assignment" x="-20" y="80">t=0, dequeue(As3,ns3,cs3)</label>
+			<nail x="10" y="50"/>
+			<nail x="70" y="50"/>
+		</transition>
+	</template>
+	<template>
+		<name>s4name</name>
+		<declaration>clock t;</declaration>
+		<location id="id15" x="40" y="80">
+			<name x="-25" y="68">inits4</name>
+			<label kind="invariant" x="30" y="95">t &lt;= ds4</label>
+		</location>
+		<init ref="id15"/>
+		<transition>
+			<source ref="id15"/>
+			<target ref="id15"/>
+			<label kind="guard" x="-59" y="-76">t == ds4</label>
+			<label kind="assignment" x="-161" y="-59">t=0, dequeue(As4,ns4,cs4)</label>
+			<nail x="-9" y="-85"/>
+			<nail x="51" y="-85"/>
+		</transition>
+	</template>
+	<template>
+		<name>top2name</name>
+		<location id="id16" x="40" y="80">
+			<name x="17" y="93">inittop2</name>
+		</location>
+		<init ref="id16"/>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id16"/>
+			<label kind="select" x="153" y="68">x3: int[0,100]</label>
+			<label kind="synchronisation" x="153" y="51">p3?</label>
+			<label kind="assignment" x="153" y="85">enqueue(As2,ns2,cs2,os2,x3)</label>
+			<nail x="300" y="13"/>
+			<nail x="226" y="-5"/>
+		</transition>
+		<transition>
+			<source ref="id16"/>
+			<target ref="id16"/>
+			<label kind="select" x="-127" y="8">x4: int[0,100]</label>
+			<label kind="synchronisation" x="-76" y="25">p4?</label>
+			<label kind="assignment" x="-212" y="42">enqueue(As2,ns2,cs2,os2,x4)</label>
+			<nail x="-34" y="25"/>
+			<nail x="42" y="-8"/>
+		</transition>
+	</template>
+	<template>
+		<name>top3name</name>
+		<location id="id17" x="40" y="80">
+			<name x="59" y="85">inittop3</name>
+		</location>
+		<init ref="id17"/>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id17"/>
+			<label kind="select" x="-221" y="-51">x5: int[0,100]</label>
+			<label kind="synchronisation" x="-204" y="-93">p5?</label>
+			<label kind="assignment" x="-297" y="-76">enqueue(As3,ns3,cs3,os3,x5)</label>
+			<nail x="-158" y="-133"/>
+			<nail x="-71" y="-117"/>
+		</transition>
+		<transition>
+			<source ref="id17"/>
+			<target ref="id17"/>
+			<label kind="select" x="-144" y="127">x6: int[0,100]</label>
+			<label kind="synchronisation" x="-93" y="144">p6?</label>
+			<label kind="assignment" x="-144" y="161">enqueue(As3,ns3,cs3,os3,x6)</label>
+			<nail x="-68" y="144"/>
+			<nail x="-8" y="144"/>
+		</transition>
+	</template>
+	<template>
+		<name>top4name</name>
+		<location id="id18" x="40" y="80">
+			<name x="68" y="68">inittop4</name>
+		</location>
+		<init ref="id18"/>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id18"/>
+			<label kind="select" x="-238" y="34">x7: int[0,100]</label>
+			<label kind="synchronisation" x="-204" y="51">p7?</label>
+			<label kind="assignment" x="-323" y="68">enqueue(As4,ns4,cs4,os4,x7)</label>
+			<nail x="-158" y="45"/>
+			<nail x="-88" y="44"/>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id18"/>
+			<label kind="select" x="-212" y="212">x8: int[0,100]</label>
+			<label kind="synchronisation" x="-166" y="227">p8?</label>
+			<label kind="assignment" x="-314" y="238">enqueue(As4,ns4,cs4,os4,x8)</label>
+			<nail x="-136" y="212"/>
+			<nail x="-76" y="212"/>
+		</transition>
+		<transition>
+			<source ref="id18"/>
+			<target ref="id18"/>
+			<label kind="select" x="-161" y="-68">x9: int[0,100]</label>
+			<label kind="synchronisation" x="-110" y="-49">p9?</label>
+			<label kind="assignment" x="-238" y="-34">enqueue(As4,ns4,cs4,os4,x9)</label>
+			<nail x="-80" y="-64"/>
+			<nail x="-20" y="-64"/>
+		</transition>
+	</template>
+	<template>
+		<name>top1name</name>
+		<location id="id19" x="40" y="80">
+			<name x="17" y="93">inittop1</name>
+		</location>
+		<init ref="id19"/>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id19"/>
+			<label kind="select" x="-170" y="-93">x1 : int[0, 100]</label>
+			<label kind="synchronisation" x="-136" y="-127">p1?</label>
+			<label kind="assignment" x="-229" y="-110">enqueue(As1,ns1,cs1,os1,x1)</label>
+			<nail x="-65" y="-181"/>
+			<nail x="22" y="-106"/>
+		</transition>
+		<transition>
+			<source ref="id19"/>
+			<target ref="id19"/>
+			<label kind="select" x="153" y="-34">x2: int [0, 100]</label>
+			<label kind="synchronisation" x="178" y="-68">p2?</label>
+			<label kind="assignment" x="161" y="-51">enqueue(As1,ns1,cs1,os1,x2)</label>
+			<nail x="102" y="-68"/>
+			<nail x="228" y="-152"/>
+		</transition>
+	</template>
+	<system>
+Processp7 = p7name();
+Processp4 = p4name();
+Processp3 = p3name();
+Processp9 = p9name();
+Processp2 = p2name();
+Processp1 = p1name();
+Processp5 = p5name();
+Processp6 = p6name();
+Processp8 = p8name();
+Processs2 = s2name();
+Processs4 = s4name();
+Processs3 = s3name();
+Processs1 = s1name();
+Processtop2 = top2name();
+Processtop3 = top3name();
+Processtop4 = top4name();
+Processtop1 = top1name();
+system Processp7, Processp4, Processp3, Processp9, Processp2, Processp1, Processp5, Processp6, Processp8, Processs2, Processs4, Processs3, Processs1, Processtop2, Processtop3, Processtop4, Processtop1;
+</system>
+	<queries>
+		<query>
+			<formula>A[](os1!=1 and os2!=1 and os3!=1 and os4!= 1)
+
+
+
+
+
+
+</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

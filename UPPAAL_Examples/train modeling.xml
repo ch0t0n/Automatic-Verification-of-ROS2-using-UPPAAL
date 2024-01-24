@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+chan approach, exi, lower, raise;
+
+</declaration>
+	<template>
+		<name x="9" y="9">Train</name>
+		<declaration>// Place local declarations here.
+
+clock y;
+</declaration>
+		<location id="id0" x="-204" y="0">
+			<name x="-212" y="-34">far</name>
+		</location>
+		<location id="id1" x="9" y="-17">
+			<name x="9" y="-68">near</name>
+			<label kind="invariant" x="0" y="-51">y &lt;= 5</label>
+		</location>
+		<location id="id2" x="-76" y="136">
+			<name x="-76" y="153">in</name>
+			<label kind="invariant" x="-93" y="170">y &lt;= 5</label>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-170" y="77">exi!</label>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-25" y="51">y &gt; 2</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-136" y="0">approach!</label>
+			<label kind="assignment" x="-136" y="-42">y := 0</label>
+		</transition>
+	</template>
+	<template>
+		<name>Controller</name>
+		<declaration>
+clock z;</declaration>
+		<location id="id3" x="-76" y="-238">
+			<name x="-86" y="-272">zero</name>
+		</location>
+		<location id="id4" x="34" y="-144">
+			<name x="51" y="-161">three</name>
+			<label kind="invariant" x="51" y="-144">z &lt;= 1</label>
+		</location>
+		<location id="id5" x="-170" y="-127">
+			<name x="-221" y="-136">one</name>
+			<label kind="invariant" x="-229" y="-110">z &lt;= 1</label>
+		</location>
+		<location id="id6" x="-51" y="-25">
+			<name x="-59" y="-17">two</name>
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id3"/>
+			<label kind="guard" x="-17" y="-212">z == 1</label>
+			<label kind="synchronisation" x="-17" y="-229">raise!</label>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-8" y="-85">exi?</label>
+			<label kind="assignment" x="-8" y="-68">z := 0</label>
+		</transition>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id6"/>
+			<label kind="guard" x="-153" y="-85">z==1</label>
+			<label kind="synchronisation" x="-153" y="-68">lower!</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id5"/>
+			<label kind="synchronisation" x="-195" y="-212">approach?</label>
+			<label kind="assignment" x="-178" y="-195">z := 0</label>
+		</transition>
+	</template>
+	<template>
+		<name>Gate</name>
+		<declaration>
+clock x;</declaration>
+		<location id="id7" x="-110" y="-263">
+			<name x="-120" y="-297">up</name>
+		</location>
+		<location id="id8" x="85" y="-263">
+			<name x="51" y="-314">comingdown</name>
+			<label kind="invariant" x="68" y="-297">x &lt;= 1</label>
+		</location>
+		<location id="id9" x="85" y="-119">
+			<name x="68" y="-102">down</name>
+		</location>
+		<location id="id10" x="-110" y="-119">
+			<name x="-144" y="-102">goingup</name>
+			<label kind="invariant" x="-136" y="-85">x &lt;= 2</label>
+		</location>
+		<init ref="id7"/>
+		<transition>
+			<source ref="id10"/>
+			<target ref="id7"/>
+			<label kind="guard" x="-153" y="-204">x &gt;= 1</label>
+		</transition>
+		<transition>
+			<source ref="id9"/>
+			<target ref="id10"/>
+			<label kind="synchronisation" x="-34" y="-144">raise?</label>
+			<label kind="assignment" x="-34" y="-119">x := 0</label>
+		</transition>
+		<transition>
+			<source ref="id8"/>
+			<target ref="id9"/>
+		</transition>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-42" y="-289">lower?</label>
+			<label kind="assignment" x="-42" y="-263">x := 0</label>
+			<nail x="59" y="-263"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+ProcessTrain = Train();
+ProcessController = Controller();
+ProcessGate = Gate();
+// List one or more processes to be composed into a system.
+system ProcessTrain, ProcessController, ProcessGate;
+
+
+    </system>
+	<queries>
+		<query>
+			<formula>A[]!(ProcessTrain.in &amp;&amp; ProcessGate.up)
+
+</formula>
+			<comment>In every path, it is not the case that the train is in but the gate is up.
+
+A G !(Train.in &amp;&amp; Gate.up)</comment>
+		</query>
+	</queries>
+</nta>

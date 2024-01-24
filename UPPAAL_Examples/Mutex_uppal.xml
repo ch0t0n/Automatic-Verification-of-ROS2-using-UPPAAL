@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+int[0,1] req1, req2;
+int[1,2] turn;</declaration>
+	<template>
+		<name x="5" y="5">Mutex</name>
+		<parameter>const int[1,2] me, int[0,1] &amp;req_self, int[0,1] &amp;req_other</parameter>
+		<declaration>// Place local declarations here.</declaration>
+		<location id="id0" x="-365" y="-221">
+			<name x="-375" y="-255">idle</name>
+		</location>
+		<location id="id1" x="-178" y="-221">
+			<name x="-188" y="-255">want</name>
+		</location>
+		<location id="id2" x="-365" y="-76">
+			<name x="-382" y="-68">crit</name>
+		</location>
+		<location id="id3" x="-178" y="-76">
+			<name x="-186" y="-59">wait</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-306" y="-34">req_other == 0</label>
+			<nail x="-263" y="-42"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="assignment" x="-450" y="-161">req_self := 0</label>
+		</transition>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="guard" x="-306" y="-144">turn == me</label>
+			<nail x="-272" y="-119"/>
+		</transition>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id3"/>
+			<label kind="assignment" x="-170" y="-170">turn := (me==1?2:1)</label>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-306" y="-221">req_self := 1</label>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+P1 = Mutex(1, req1, req2);
+P2 = Mutex(2, req2, req1);
+// List one or more processes to be composed into a system.
+system P1,P2;
+    </system>
+	<queries>
+		<query>
+			<formula>A[] not(P1.crit and P2.crit)</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt;P1.crit</formula>
+			<comment></comment>
+		</query>
+		<query>
+			<formula>A&lt;&gt;P1.crit</formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>

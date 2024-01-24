@@ -1,0 +1,34 @@
+{
+'Train': {
+    'L': {'far','near','in'},
+    'l0': 'far',
+    'Act':{'exi!','approach!'},
+    'C':{'y'},
+    'I':{'far':None,'near':'y<=5','in':'y<=5'},
+    'E':{'E1': ('far',None,'approach!',{'y'},'near'),
+         'E2': ('in',None,'exi!',None,'far'),
+         'E3': ('near','y>2',None,None,'in')}
+},
+'Controller': {
+    'L': {'zero','one','two','three'},
+    'l0': 'zero',
+    'Act':{'exi?','approach?','raise!','lower!'},
+    'C':{'z'},
+    'I':{'zero':None,'one':'z<=1','two':None, 'three':'z<=1'},
+    'E':{'E1': ('three','z==1','raise!',None,'zero'),
+	 'E2': ('two',None,'exi?',{'z'},'three'),
+         'E3': ('one','z==1','lower!',None,'two'),
+         'E4': ('zero',None,'approach?',{'z'},'one')}
+},
+'Gate': {
+    'L': {'up','comingdown','down','goingup'},
+    'l0': 'up',
+    'Act':{'raise?','lower?'},
+    'C':{'x'},
+    'I':{'up':None,'comingdown':'x<=1','down':None, 'goingup':'x<=2'},
+    'E':{'E1': ('goingup','x>=1',None,None,'up'),
+	 'E2': ('down',None,'raise?',{'x'},'goingup'),
+         'E3': ('comingdown',None,None,None,'down'),
+         'E4': ('up',None,'lower?',{'x'},'comingdown')}
+}
+}

@@ -1,0 +1,24 @@
+We are given the above script for generating a ROS publisher node that will publish the message "Hello World" in a ROS topic named 'new_topic' in every 0.5 seconds. We can derive the code from the ROS syntax grammar as follows,
+
+Any ROS script is defined by the variable <ROS-program>. This variable has three parts: import rclpy, <Libraries-and-interfaces>, <ROS-instructions>. The program will follow the new line commands as per given by the grammar. Here all the three parts are given in separate lines so they will be in separate lines in the script.
+
+The first line 'import rclpy' is fixed. From second line till the <ROS-instructions> we will have libraries and interfaces, which are defined inductively. A library can be any valid Python library. An interface is a ROS interface (data structure) which can be retrived from the interface location.
+
+After defining the libraries and interfaces, we need to derive the <ROS-instructions>. Here we are only interested in the <ROS-instructions> that have the following structure, first write the <Node-class-instructions>, then write the <Node-class-commands> inside the main function wrapped by the fixed instructions rclpy.init() and rclpy.shutdown().
+
+The <node-class-instructions> will have 'class<Node-name>(rclpy.node.Node):' in the first line, followed by 'def __init__(self):' for the initialization method. The next line 'super().__init__(<string>)' will inheritate all the ROS node commands from the 'rclpy.node.Node' library. Next we will have the node initialization codes (<Node-init-code>) followed by some class methods (<Class-methods>).
+
+Here we are generating a publisher node. So the <Node-init-code> will call the ROS method self.create_publisher() and assigned it to the self.<publisher-name> variable. This method takes 3 parameters: interface (<Interface-type>), topic name (<string>) and the size of the queue for the topic (<integer>). The next line will create a timer by calling in-built ROS method self.create_timer() and assign it to the variable self.<timer-name>. The method self.create_timer() takes two parameters as its arguments: time interval (<real>) and a callback function <callback-method>.
+
+After the initialization we have the <Class-methods>. Here we only have one method which is the callback method that is passed inside the time interval (<callback-method>). Inside the method we first assign the interface type (<Interface-type>) to a variable named <interface-name>, and using the name we also call the interface methods (<interface-method>) that is used to store the data that we want to publish to the topic. We print the data in the log window via the in-built method self.get_logger().info() and pass the data as a parameter.
+
+For the node class commands, we first make a node object (<Node-object>) by calling the node class name (<Node-name>()). Then for always running the node on ROS unless any instructions to stop we use the in-built method rclpy.spin() and pass the object name inside it. Finally we say that any name that is defined by the grammar must be a valid name, that is accepted by Python as a variable name. The rules are as follows, 
+
+1. The first character must be an uppercase or lower case letter or $ or _, no numbers are allowed.
+2. The second to rest of the characters can either be a number, an uppder or lower case letter, $ or _.
+
+Finally, we say that any variable that is defined by the grammar can be replaced by the following general rule, <Var> = <Python-code>*
+                                    <Var>
+                                 <Python-code>*
+
+Here the <Python-code>* will have zero or more lines of python codes, which will not affect the ROS syntax as long as it is valid. We can also use any method, class, datatype, variables that is used in the <Python-code>* inside the ROS code. And <> is defined as empty.

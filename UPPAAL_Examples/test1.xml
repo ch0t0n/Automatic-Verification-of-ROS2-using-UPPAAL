@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+
+chan p1;
+// int As1[5], As2[3];
+</declaration>
+	<template>
+		<name x="5" y="5">pub1</name>
+		<declaration>// Place local declarations here.
+clock t1;</declaration>
+		<location id="id0" x="-552" y="-773">
+			<name x="-561" y="-756">initp1</name>
+			<label kind="invariant" x="-561" y="-739">t1&lt;=2</label>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id0"/>
+			<label kind="guard" x="-578" y="-918">t1==2</label>
+			<label kind="synchronisation" x="-578" y="-901">p1!</label>
+			<label kind="assignment" x="-578" y="-884">t1:=0</label>
+			<nail x="-493" y="-858"/>
+			<nail x="-612" y="-858"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+Processpub1 = pub1();
+//Processpub2 = pub2();
+//Processpub3 = pub3();
+//Processsub1 = sub1();
+//Processsub2 = sub2();
+
+// List one or more processes to be composed into a system.
+system Processpub1;
+
+//  Processpub2, Processpub3, Processsub1, Processsub2, Processtop1;    </system>
+	<queries>
+		<query>
+			<formula></formula>
+			<comment></comment>
+		</query>
+	</queries>
+</nta>
